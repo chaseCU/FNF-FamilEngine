@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="dripmog_title.png">
+	<!-- Created with Adobe Animate version 21.0.7.42652 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="mog0000" x="0" y="0" width="613" height="389" frameX="0" frameY="-32" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0001" x="0" y="0" width="613" height="389" frameX="0" frameY="-32" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0002" x="613" y="0" width="555" height="403" frameX="-29" frameY="-18" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0003" x="613" y="0" width="555" height="403" frameX="-29" frameY="-18" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0004" x="1168" y="0" width="515" height="413" frameX="-49" frameY="-8" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0005" x="1168" y="0" width="515" height="413" frameX="-49" frameY="-8" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0006" x="0" y="413" width="490" height="420" frameX="-62" frameY="-1" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0007" x="0" y="413" width="490" height="420" frameX="-62" frameY="-1" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0008" x="490" y="413" width="482" height="421" frameX="-66" frameY="0" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0009" x="490" y="413" width="482" height="421" frameX="-66" frameY="0" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0010" x="490" y="413" width="482" height="421" frameX="-66" frameY="0" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0011" x="490" y="413" width="482" height="421" frameX="-66" frameY="0" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0012" x="490" y="413" width="482" height="421" frameX="-66" frameY="0" frameWidth="613" frameHeight="421"/>
+	<SubTexture name="mog0013" x="490" y="413" width="482" height="421" frameX="-66" frameY="0" frameWidth="613" frameHeight="421"/>
+</TextureAtlas>

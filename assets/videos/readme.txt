@@ -1,0 +1,1 @@
+videos have to be .mp4 and 1280x720 resolution!!!
