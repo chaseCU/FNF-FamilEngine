@@ -11,6 +11,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
+import flixel.util.FlxStringUtil; 
 import lime.utils.Assets;
 import flixel.FlxSubState;
 import flash.text.TextField;
@@ -737,7 +738,9 @@ class PreferencesSubstate extends MusicBeatSubstate
 	];
 	static var noCheckbox:Array<String> = [
 		'Framerate',
-		'Note Delay'
+		'Note Delay',
+		'Scroll Speed',
+		'Note Size'
 	];
 
 	static var options:Array<String> = [
@@ -756,6 +759,9 @@ class PreferencesSubstate extends MusicBeatSubstate
 		'Note Delay',
 		'Note Splashes',
 		'Hide HUD',
+		'Note Size',
+		'Custom Scroll Speed',
+		'Scroll Speed',
 		'Hide Song Length',
 		'Reset Key',
 		'Instant Respawn',
@@ -949,6 +955,9 @@ class PreferencesSubstate extends MusicBeatSubstate
 					case 'Hide HUD':
 						ClientPrefs.hideHud = !ClientPrefs.hideHud;
 
+					case 'Custom Scroll Speed':
+						ClientPrefs.scroll = !ClientPrefs.scroll;
+
 					case 'Persistent Cached Data':
 						ClientPrefs.imagesPersist = !ClientPrefs.imagesPersist;
 						FlxGraphic.defaultPersist = ClientPrefs.imagesPersist;
@@ -987,6 +996,17 @@ class PreferencesSubstate extends MusicBeatSubstate
 							FlxG.drawFramerate = ClientPrefs.framerate;
 							FlxG.updateFramerate = ClientPrefs.framerate;
 						}
+
+					case 'Scroll Speed':
+						ClientPrefs.speed += add/10;
+						if(ClientPrefs.speed < 0.5) ClientPrefs.speed = 0.5;
+						else if(ClientPrefs.speed > 4) ClientPrefs.speed = 4;
+
+					case 'Note Size':
+						ClientPrefs.noteSize += add/20;
+						if(ClientPrefs.noteSize < 0.5) ClientPrefs.noteSize = 0.5;
+						else if(ClientPrefs.noteSize > 1.5) ClientPrefs.noteSize = 1.5;
+
 					case 'Note Delay':
 						var mult:Int = 1;
 						if(holdTime > 1.5) { //Double speed after 1.5 seconds holding
@@ -1049,6 +1069,12 @@ class PreferencesSubstate extends MusicBeatSubstate
 				daText = "If unchecked, your mom won't be angry at you.";
 			case 'Violence':
 				daText = "If unchecked, you won't get disgusted as frequently.";
+			case 'Custom Scroll Speed'://for Joseph -bbpanzu
+				daText = "Leave unchecked for chart-dependent scroll speed";
+			case 'Scroll Speed':
+				daText = "Arrow speed (Custom must be enabled)";
+			case 'Note Size':
+				daText = "Size of notes and stuff";
 			case 'Note Splashes':
 				daText = "If unchecked, hitting \"Sick!\" notes won't show particles.";
 			case 'Flashing Lights':
@@ -1133,6 +1159,8 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daValue = ClientPrefs.cursing;
 					case 'Violence':
 						daValue = ClientPrefs.violence;
+					case 'Custom Scroll Speed':
+						daValue = ClientPrefs.scroll;
 					case 'Camera Zooms':
 						daValue = ClientPrefs.camZooms;
 					case 'Hide HUD':
@@ -1164,6 +1192,11 @@ class PreferencesSubstate extends MusicBeatSubstate
 						daText = '' + ClientPrefs.framerate;
 					case 'Note Delay':
 						daText = ClientPrefs.noteOffset + 'ms';
+					case 'Note Size':
+						daText = FlxStringUtil.formatMoney(ClientPrefs.noteSize) + 'x';
+						if (ClientPrefs.noteSize == 0.7) daText += "(Default)";
+					case 'Scroll Speed':
+						daText = ClientPrefs.speed+"";
 				}
 				var lastTracker:FlxSprite = text.sprTracker;
 				text.sprTracker = null;

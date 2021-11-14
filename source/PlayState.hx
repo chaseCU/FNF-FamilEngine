@@ -107,6 +107,8 @@ class PlayState extends MusicBeatState
 	public var GF_X:Float = 400;
 	public var GF_Y:Float = 130;
 
+	public static var songSpeed:Float = 0; 
+
 	public var boyfriendGroup:FlxSpriteGroup;
 	public var dadGroup:FlxSpriteGroup;
 	public var gfGroup:FlxSpriteGroup;
@@ -275,7 +277,9 @@ class PlayState extends MusicBeatState
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
-		SONG.speed = Song.loadFromJson(songName + CoolUtil.difficultyStuff[storyDifficulty][1], StringTools.replace(songName," ", "-").toLowerCase()).speed;
+		if (!ClientPrefs.scroll) {
+			SONG.speed = Song.loadFromJson(songName + CoolUtil.difficultyStuff[storyDifficulty][1], StringTools.replace(songName," ", "-").toLowerCase()).speed;
+		}
 
 		practiceMode = false;
 		// var gameCam:FlxCamera = FlxG.camera;
@@ -1541,6 +1545,10 @@ class PlayState extends MusicBeatState
 	private function generateSong(dataPath:String):Void
 	{
 		// FlxG.log.add(ChartParser.parse());
+songSpeed = SONG.speed;
+		if(ClientPrefs.scroll) {
+			songSpeed = ClientPrefs.speed;
+		}
 
 		var songData = SONG;
 		Conductor.changeBPM(songData.bpm);
@@ -1613,7 +1621,6 @@ class PlayState extends MusicBeatState
 					swagNote.sustainLength = songNotes[2];
 					swagNote.noteType = songNotes[3];
 					if(!Std.isOfType(songNotes[3], String)) swagNote.noteType = editors.ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
-					swagNote.scrollFactor.set();
 
 					if (section.gfSection){
 							trace("got gf section");
@@ -1622,6 +1629,8 @@ class PlayState extends MusicBeatState
 							trace("got gf notes");
 						}
 					}
+
+					swagNote.scrollFactor.set();
 
 					var susLength:Float = swagNote.sustainLength;
 
@@ -1634,7 +1643,7 @@ class PlayState extends MusicBeatState
 						{
 							oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 
-							var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + (Conductor.stepCrochet / FlxMath.roundDecimal(SONG.speed, 2)), daNoteData, oldNote, true);
+							var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote) + (Conductor.stepCrochet / FlxMath.roundDecimal(songSpeed, 2)), daNoteData, oldNote, true);
 							sustainNote.mustPress = gottaHitNote;
 							sustainNote.noteType = swagNote.noteType;
 							sustainNote.scrollFactor.set();
@@ -2202,7 +2211,7 @@ class PlayState extends MusicBeatState
 		}
 		doDeathCheck();
 
-		var roundedSpeed:Float = FlxMath.roundDecimal(SONG.speed, 2);
+		var roundedSpeed:Float = FlxMath.roundDecimal(songSpeed, 2);
 		if (unspawnNotes[0] != null)
 		{
 			var time:Float = 1500;
@@ -2400,7 +2409,7 @@ class PlayState extends MusicBeatState
 				}
 
 				// WIP interpolation shit? Need to fix the pause issue
-				// daNote.y = (strumLine.y - (songTime - daNote.strumTime) * (0.45 * PlayState.SONG.speed));
+				// daNote.y = (strumLine.y - (songTime - daNote.strumTime) * (0.45 * songSpeed));
 
 				var doKill:Bool = daNote.y < -daNote.height;
 				if(ClientPrefs.downScroll) doKill = daNote.y > FlxG.height;
@@ -2866,16 +2875,19 @@ class PlayState extends MusicBeatState
 				if(bgGirls != null) bgGirls.swapDanceType();
 			
 			case 'Change Scroll Speed':
-				var val1:Float = Std.parseFloat(value1);
-    		    var val2:Float = Std.parseFloat(value2); 
-				//SONG.speed = val1;
-				if (val1 >= 10) { //making it so that smartass people dont go over limits
-					val1 = 10;
+				if(!ClientPrefs.scroll) {
+					var val1:Float = Std.parseFloat(value1);
+					var val2:Float = Std.parseFloat(value2); 
+					//SONG.speed = val1;
+					if (val1 >= 10) { //making it so that smartass people dont go over limits
+						val1 = 10;
+					}
+					else if (val1 <= 0.1) {
+						val1 = 0.1;
+					}
+					FlxTween.tween(PlayState, {songSpeed: val1}, 0.3, {ease: FlxEase.quadOut});
 				}
-				else if (val1 <= 0.1) {
-					val1 = 0.1;
-				}
-				FlxTween.tween(SONG, {speed: val1}, 0.3, {ease: FlxEase.quadOut});
+				
 		}
 		callOnLuas('onEvent', [eventName, value1, value2]);
 	}
