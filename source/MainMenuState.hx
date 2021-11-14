@@ -157,7 +157,6 @@ class MainMenuState extends MusicBeatState
 			character.animation.play('idle');
 			prevCharacter = random;
 		}
-		
 
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
