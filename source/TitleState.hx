@@ -61,6 +61,9 @@ class TitleState extends MusicBeatState
 	var lastKeysPressed:Array<FlxKey> = [];
 	var isGFHappy:Bool = false;
 
+	var mustUpdate:Bool = false;
+	public static var updateVersion:String = '';
+
 	override public function create():Void
 	{
 		#if (polymod && !html5)
@@ -76,8 +79,30 @@ class TitleState extends MusicBeatState
 				polymod.Polymod.init({modRoot: "mods", dirs: folders});
 			}
 		}
+		#end
 
-		//Gonna finish this later, probably
+		#if CHECK_FOR_UPDATES
+		if(!closedState) {
+			trace('checking for update');
+			var http = new haxe.Http("https://raw.githubusercontent.com/ShadowMario/FNF-PsychEngine/main/gitVersion.txt");
+			
+			http.onData = function (data:String)
+			{
+				updateVersion = data.split('\n')[0].trim();
+				var curVersion:String = MainMenuState.psychEngineVersion.trim();
+				trace('version online: ' + updateVersion + ', your version: ' + curVersion);
+				if(updateVersion != curVersion) {
+					trace('versions arent matching!');
+					mustUpdate = true;
+				}
+			}
+			
+			http.onError = function (error) {
+				trace('error: $error');
+			}
+			
+			http.request();
+		}
 		#end
 
 		bg = new FlxBackdrop(null, 1, 1, true, true);
