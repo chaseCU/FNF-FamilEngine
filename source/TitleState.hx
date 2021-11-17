@@ -106,7 +106,7 @@ class TitleState extends MusicBeatState
 		ClientPrefs.loadPrefs();
 
 		Highscore.load();
-		
+
 		#if GAMEJOLT_ALLOWED
 		GameJoltAPI.connect();
 		GameJoltAPI.authDaUser(FlxG.save.data.gjUser, FlxG.save.data.gjToken);
@@ -467,54 +467,56 @@ class TitleState extends MusicBeatState
 
 		if(!closedState) {
 			sickBeats++;
-			switch (sickBeats)
+			switch (curBeat)
 			{
 				case 1:
 					createCoolText(['Famil Engine by'], 45);
 				// credTextShit.visible = true;
-				case 2:
+				case 3:
+					deleteCoolText();
+					createCoolText(['Famil Engine by'], 45);
 					addMoreText('family1242', 45);
 				// credTextShit.text += '\npresent...';
 				// credTextShit.addText();
-				case 3:
+				case 4:
 					deleteCoolText();
 				// credTextShit.visible = false;
 				// credTextShit.text = 'In association \nwith';
 				// credTextShit.screenCenter();
-				case 4:
+				case 5:
 					createCoolText(['This is a mod to'], -60);
-				case 6:
+				case 7:
 					addMoreText('This game right below lol', -60);
 					logoSpr.visible = true;
 				// credTextShit.text += '\nNewgrounds';
-				case 7:
+				case 8:
 					deleteCoolText();
 					logoSpr.visible = false;
 				// credTextShit.visible = false;
 
 				// credTextShit.text = 'Shoutouts Tom Fulp';
 				// credTextShit.screenCenter();
-				case 8:
+				case 9:
 					createCoolText([curWacky[0]]);
 				// credTextShit.visible = true;
-				case 10:
+				case 11:
 					addMoreText(curWacky[1]);
 				// credTextShit.text += '\nlmao';
-				case 11:
+				case 12:
 					deleteCoolText();
 				// credTextShit.visible = false;
 				// credTextShit.text = "Friday";
 				// credTextShit.screenCenter();
-				case 12:
+				case 13:
 					addMoreText('Friday');
 				// credTextShit.visible = true;
-				case 13:
+				case 14:
 					addMoreText('Night');
 				// credTextShit.text += '\nNight';
-				case 14:
+				case 15:
 					addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
 
-				case 15:
+				case 16:
 					skipIntro();
 			}
 		}
