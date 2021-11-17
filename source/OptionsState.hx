@@ -25,6 +25,10 @@ import flixel.util.FlxTimer;
 import flixel.input.keyboard.FlxKey;
 import flixel.graphics.FlxGraphic;
 import Controls;
+#if GAMEJOLT_ALLOWED
+import GameJolt.GameJoltAPI;
+import GameJolt.GameJoltLogin;
+#end
 
 using StringTools;
 
@@ -35,6 +39,9 @@ class OptionsState extends MusicBeatState
 		['Notes', 0xFF12FA05], 
 		['Controls', 0xFF2599C0],
 		['Preferences', 0xFFFD719B]
+		#if GAMEJOLT_ALLOWED
+		,['GameJolt Integration', 0xFF006400]
+		#end
 	];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private static var curSelected:Int = 0;
@@ -114,6 +121,11 @@ class OptionsState extends MusicBeatState
 
 				case 'Preferences':
 					openSubState(new PreferencesSubstate());
+
+				#if GAMEJOLT_ALLOWED
+				case 'GameJolt Integration':
+					MusicBeatState.switchState(new GameJoltLogin());
+				#end
 			}
 		}
 		var newColor:Int = options[curSelected][1];

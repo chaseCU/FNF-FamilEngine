@@ -20,13 +20,16 @@ import flixel.math.FlxRandom;
 import lime.app.Application;
 import Achievements;
 import editors.MasterEditorMenu;
+#if GAMEJOLT_ALLOWED
+import GameJolt.GameJoltAPI;
+#end
 
 using StringTools;
 
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.4.2'; 
-	public static var familEngineVersion:String = '0.2.1'; //This is also used for Discord RPC
+	public static var familEngineVersion:String = '0.2.2'; //This is also used for Discord RPC
 	public static var curSelected:Int = 0;
 
 	public static var prevCharacter:Int = 99;
@@ -203,6 +206,9 @@ class MainMenuState extends MusicBeatState
 			var achieveID:Int = Achievements.getAchievementIndex('friday_night_play');
 			if(!Achievements.isAchievementUnlocked(Achievements.achievementsStuff[achieveID][2])) { //It's a friday night. WEEEEEEEEEEEEEEEEEE
 				Achievements.achievementsMap.set(Achievements.achievementsStuff[achieveID][2], true);
+				#if GAMEJOLT_ALLOWED
+				GameJoltAPI.getTrophy(152033);
+				#end
 				giveAchievement();
 				ClientPrefs.saveSettings();
 			}

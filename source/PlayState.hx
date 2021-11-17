@@ -51,6 +51,9 @@ import Achievements;
 import StageData;
 import FunkinLua;
 import DialogueBoxPsych;
+#if GAMEJOLT_ALLOWED
+import GameJolt.GameJoltAPI;
+#end
 
 #if sys
 import sys.FileSystem;
@@ -4134,6 +4137,7 @@ songSpeed = SONG.speed;
 	private function checkForAchievement(achievesToCheck:Array<String>):String {
 		for (i in 0...achievesToCheck.length) {
 			var achievementName:String = achievesToCheck[i];
+			var trophyID:Int = 0; //probably gonna add an easier way to do this but im a dumbass so i guess it will do
 			if(!Achievements.isAchievementUnlocked(achievementName)) {
 				var unlock:Bool = false;
 				switch(achievementName)
@@ -4145,40 +4149,58 @@ songSpeed = SONG.speed;
 							switch(weekName) //I know this is a lot of duplicated code, but it's easier readable and you can add weeks with different names than the achievement tag
 							{
 								case 'week1':
-									if(achievementName == 'week1_nomiss') unlock = true;
+									if(achievementName == 'week1_nomiss')
+										unlock = true;
+										trophyID = 152034;
 								case 'week2':
-									if(achievementName == 'week2_nomiss') unlock = true;
+									if(achievementName == 'week2_nomiss')
+										unlock = true;
+										trophyID = 152035;
 								case 'week3':
-									if(achievementName == 'week3_nomiss') unlock = true;
+									if(achievementName == 'week3_nomiss') 
+										unlock = true;
+										trophyID = 152036;
 								case 'week4':
-									if(achievementName == 'week4_nomiss') unlock = true;
+									if(achievementName == 'week4_nomiss')
+										unlock = true;
+										trophyID = 152037;
 								case 'week5':
-									if(achievementName == 'week5_nomiss') unlock = true;
+									if(achievementName == 'week5_nomiss')
+										unlock = true;
+										trophyID = 152038;
 								case 'week6':
-									if(achievementName == 'week6_nomiss') unlock = true;
+									if(achievementName == 'week6_nomiss')
+										unlock = true;
+										trophyID = 152039;
 								case 'week7':
-									if(achievementName == 'week7_nomiss') unlock = true;
+									if(achievementName == 'week7_nomiss')
+										unlock = true;
 							}
 						}
 					case 'ur_bad':
 						if(ratingPercent < 0.2 && !practiceMode && !cpuControlled) {
 							unlock = true;
+							trophyID = 152040;
 						}
 					case 'ur_good':
 						if(ratingPercent >= 1 && !usedPractice && !cpuControlled) {
 							unlock = true;
+							trophyID = 152041;
 						}
 					case 'roadkill_enthusiast':
 						if(Achievements.henchmenDeath >= 100) {
 							unlock = true;
+							trophyID = 152042;
 						}
 					case 'oversinging':
 						if(boyfriend.holdTimer >= 20 && !usedPractice) {
 							unlock = true;
+							trophyID = 152043;
 						}
 					case 'hype':
 						if(!boyfriendIdled && !usedPractice) {
 							unlock = true;
+							trophyID = 152044;
 						}
 					case 'two_keys':
 						if(!usedPractice) {
@@ -4189,20 +4211,26 @@ songSpeed = SONG.speed;
 
 							if(howManyPresses <= 2) {
 								unlock = true;
+								trophyID = 152045;
 							}
 						}
 					case 'toastie':
 						if(/*ClientPrefs.framerate <= 60 &&*/ ClientPrefs.lowQuality && !ClientPrefs.globalAntialiasing && !ClientPrefs.imagesPersist) {
 							unlock = true;
+							trophyID = 152046;
 						}
 					case 'debugger':
 						if(Paths.formatToSongPath(SONG.song) == 'test' && !usedPractice) {
 							unlock = true;
+							trophyID = 152047;
 						}
 				}
 
 				if(unlock) {
 					Achievements.unlockAchievement(achievementName);
+					#if GAMEJOLT_ALLOWED
+					GameJoltAPI.getTrophy(trophyID);
+					#end
 					return achievementName;
 				}
 			}

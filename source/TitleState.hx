@@ -28,6 +28,10 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.app.Application;
 import openfl.Assets;
+#if GAMEJOLT_ALLOWED
+import GameJolt.GameJoltLogin;
+import GameJolt.GameJoltAPI;
+#end
 
 using StringTools;
 
@@ -102,6 +106,11 @@ class TitleState extends MusicBeatState
 		ClientPrefs.loadPrefs();
 
 		Highscore.load();
+		
+		#if GAMEJOLT_ALLOWED
+		GameJoltAPI.connect();
+		GameJoltAPI.authDaUser(FlxG.save.data.gjUser, FlxG.save.data.gjToken);
+		#end
 
 		if (FlxG.save.data.weekCompleted != null)
 		{
