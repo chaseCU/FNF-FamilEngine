@@ -3,7 +3,9 @@ package;
 //stole this from Hypno's Lullaby mod because i suck at coding
 
 import flixel.graphics.FlxGraphic;
+#if sys
 import sys.thread.Thread;
+#end
 import flixel.system.FlxAssets;
 import flixel.util.FlxColor;
 import flixel.text.FlxText;
@@ -83,9 +85,13 @@ class PreloadState extends MusicBeatState {
         add(backgroundGroup);
         FlxTween.tween(FlxG.camera, {alpha: 1}, 0.5, {
             onComplete: function(tween:FlxTween){
+                #if desktop
                 Thread.create(function(){
                     assetGenerate();
                 });
+                #else
+                assetGenerate();
+                #end
             }
         });
 

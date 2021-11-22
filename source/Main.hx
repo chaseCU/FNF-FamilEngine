@@ -70,8 +70,7 @@ class Main extends Sprite
 		initialState = PreloadState;
 		#end
 
-		Paths.getModFolders();
-		ClientPrefs.startControls();
+		ClientPrefs.loadDefaultKeys();
 		addChild(new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen));
 
 		#if !mobile
